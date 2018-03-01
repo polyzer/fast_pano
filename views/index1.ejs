@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<script> 
+</script>
+<script src="src/three.min.js"></script>
+<script src="src/DeviceOrientationControls.js"></script>
+<script src="https://hammerjs.github.io/dist/hammer.min.js"></script>
+<script src='src/MultipleSphericalPanorams.js'></script>
+<script>
+	var OrientationParameters = {
+		alpha: 0,
+		beta: 0,
+		gamma: 0,
+		deviceMotionInterval: 0,
+		
+		touchRotRadX: 0,
+		touchRotRadY: 0,
+		touchDeltaTime: 0,
+		
+		shakeTimer: 0,
+		shakeTimerStep: 0.1
+	};
+	var CONTROL_PARAMETERS = {
+		TYPE: {
+			ACCELEROMETER: 0,
+			TOUCH: 1
+		}
+	};
+
+
+	var ControlParameters = {
+		Type: CONTROL_PARAMETERS.TYPE.ACCELEROMETER,
+		Clicked: false
+	};
+</script>
+
+	<style>
+		.NextSphereButt, .ChangeControlButt {
+			text-decoration: none;
+			outline: none;
+			display: inline-block;
+			margin: 5px 10px;
+			padding: 10px 15px;
+			position: relative;
+			background-color: #e7682c;
+			border: 2px solid #000000;
+			color: #000000;
+			font-family: 'Montserrat', sans-serif;
+			transition: .4s;
+		}
+		.NextSphereButt:after, .ChangeControlButt:after {
+			content: "";
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			width: 100%;
+			height: 100%;
+			margin: auto;
+			border: 2px solid rgba(0,0,0,0);
+			transition: .4s;
+		}
+		.NextSphereButt:hover:after, .ChangeControlButt:hover:after {
+			border-color: #000000;
+			width: calc(100% - 10px);
+			height: calc(100% + 10px);
+		}
+	</style>
+
+</head>
+
+<!-- start the body of your page -->
+<body style='margin : 0px; overflow: hidden;'>
+ 	<!-- add some info at the top of the page -->
+<!--	<div style='position: fixed; top: 10px; width:100%; text-align: center; z-index: 1;'>
+		<a href="https://github.com/jeromeetienne/AR.js/" target="_blank">AR.js</a> - Two-ways Portal 360 for a-frame by <a href='https://twitter.com/jerome_etienne' target='_blank'>@jerome_etienne</a>
+	</div>
+ -->
+
+	<h1 style="position:absolute;color:#000;z-index:99999999999999999999;left:25px;top:15px">SkyFox Team</h1>
+
+<script>
+	// init renderer
+	var renderer	= new THREE.WebGLRenderer({
+		antialias: true,
+		alpha: true
+	});
+	renderer.setClearColor(new THREE.Color('lightgrey'), 0)
+	renderer.setSize( window.innerWidth, window.innerHeight );
+	renderer.domElement.style.position = 'absolute'
+	renderer.domElement.style.top = '0px'
+	renderer.domElement.style.left = '0px'
+	document.body.appendChild( renderer.domElement );
+
+
+	var CameraInfoDiv = document.createElement("div");
+	CameraInfoDiv.setAttribute("id", "CameraInfoDiv");
+
+	//document.body.appendChild(CameraInfoDiv);
+
+	CameraInfoDiv.style.position = "absolute";
+	CameraInfoDiv.style.left = "100px";
+	CameraInfoDiv.style.top = "100px";
+	CameraInfoDiv.style.zIndex = "100000000";
+
+	var ChangeControlButton = document.createElement("button");
+	ChangeControlButton.setAttribute("id", "ChangeControlButton");
+    ChangeControlButton.className = "ChangeControlButt";
+	ChangeControlButton.style.position = "absolute";
+	ChangeControlButton.style.left = "30%";
+	ChangeControlButton.style.top = "90%";
+	ChangeControlButton.innerText = "Управление";
+	ChangeControlButton.style.zIndex = "1009000889";
+	//document.body.appendChild(ChangeControlButton);
+
+	ChangeControlButton.addEventListener("click", function () {
+		if(ControlParameters.Type === CONTROL_PARAMETERS.TYPE.ACCELEROMETER)
+		{
+			ControlParameters.Type = CONTROL_PARAMETERS.TYPE.TOUCH;
+		} else
+		{
+			ControlParameters.Type = CONTROL_PARAMETERS.TYPE.ACCELEROMETER;				
+		}
+
+		ControlParameters.Clicked = true;
+
+	});
+
+	var NextSphereButton = document.createElement("button");
+	NextSphereButton.setAttribute("id", "NextSphereButton");
+    NextSphereButton.className = "NextSphereButt";
+	NextSphereButton.style.position = "absolute";
+	NextSphereButton.style.left = "0px";
+	NextSphereButton.style.top = "90%";
+	NextSphereButton.innerText = "Панорама";
+	NextSphereButton.style.zIndex = "1009000889";
+	//document.body.appendChild(NextSphereButton);
+
+	var MultipleSphericalPanorams = new THREEx.MultipleSphericalPanorams({textures:["uploadFiles/<%=image%>.jpg"]});
+	var camera = MultipleSphericalPanorams.Camera;
+	var scene = MultipleSphericalPanorams.Scene;
+
+	// handle resize
+	window.addEventListener('resize', function(){
+		onResize()
+	})
+	function onResize(){
+		camera.aspect = window.innerWidth / window.innerHeight;
+    	camera.updateProjectionMatrix();
+
+    	renderer.setSize( window.innerWidth, window.innerHeight );
+	}
+
+	// camera = new THREE.Camera();
+	// scene = new THREE.Scene();
+
+	NextSphereButton.addEventListener("click", function () {
+		MultipleSphericalPanorams.setSphereMeshToNext();
+	});
+
+	// run the rendering loop
+	var lastTimeMsec= null
+	requestAnimationFrame(function animate(nowMsec){
+		// keep looping
+		requestAnimationFrame( animate );
+		// measure time
+		lastTimeMsec	= lastTimeMsec || nowMsec-1000/60;
+		var deltaMsec	= Math.min(200, nowMsec - lastTimeMsec);
+		lastTimeMsec	= nowMsec;
+		MultipleSphericalPanorams.update(nowMsec, deltaMsec);
+		renderer.render(scene, camera);
+	});
+
+</script>
+
+<script>
+// Функция тестирует акселерометр на показания данных
+ function testDeviceMotion(event) {
+	// Если браузер поддерживает событие, но данные
+	// передаются как undefined||null, значит, что устройство
+	// не поддерживает акселерометр,
+	// иначе данные были бы числом.
+	if(!event.rotationRate.alpha)
+	{
+		// Если у нас данные - не число, то удаляем все собственные обработчики;
+		// чтобы они за зря не крутились
+		window.removeEventListener("devicemotion", testDeviceMotion);			
+		ControlParameters.Type = CONTROL_PARAMETERS.TYPE.TOUCH;
+		document.body.removeChild(ChangeControlButton);
+	} else {
+		// если данные являются числом, то устройство имеет акселерометр,
+		// устанавливаем нормальный обработчик и удаляем тестовый;
+		window.addEventListener("devicemotion", onDeviceMotion);			
+		window.removeEventListener("devicemotion", testDeviceMotion);			
+	}
+};
+
+
+// Наш обработчик ускорения
+ function onDeviceMotion(event) {
+
+	OrientationParameters.alpha = event.rotationRate.alpha;
+	OrientationParameters.beta = -event.rotationRate.beta;
+	OrientationParameters.deviceMotionInterval = event.interval;
+
+	if((Math.abs(event.rotationRate.alpha) > 7 || 
+		Math.abs(event.rotationRate.beta) > 7 ||
+		Math.abs(event.rotationRate.gamma) > 7) &&
+		!OrientationParameters.shakeTimer
+	)
+	{
+		MultipleSphericalPanorams.setSphereMeshToNext();
+		OrientationParameters.shakeTimer = 10;
+	}
+
+	OrientationParameters.phi = 0;
+	OrientationParameters.theta = 0;
+};
+
+	///////////////////////////////////////////////
+	// Определяем, поддерживает ли устройство акселерометр!
+	if (window.DeviceMotionEvent != undefined) {
+		window.addEventListener("devicemotion", testDeviceMotion);
+	} else {
+		ControlParameters.Type = CONTROL_PARAMETERS.TYPE.TOUCH;
+		document.body.removeChild(ChangeControlButton);
+	}
+</script>
+
+</body>

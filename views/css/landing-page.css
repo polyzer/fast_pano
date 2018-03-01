@@ -1,0 +1,168 @@
+body {
+  font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 700;
+}
+
+header.masthead {
+  position: relative;
+  background-color: #343a40;
+  background: url("../img/bg-masthead.jpg") no-repeat center center;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  padding-top: 8rem;
+  padding-bottom: 8rem;
+}
+
+header.masthead .overlay {
+  position: absolute;
+  background-color: #212529;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  opacity: 0.3;
+}
+
+header.masthead h1 {
+  font-size: 2rem;
+}
+
+@media (min-width: 768px) {
+  header.masthead {
+    padding-top: 15rem;
+    padding-bottom: 15rem;
+  }
+  header.masthead h1 {
+    font-size: 3rem;
+  }
+}
+
+.showcase .showcase-text {
+  padding: 3rem;
+}
+
+.showcase .showcase-img {
+  min-height: 30rem;
+  background-size: cover;
+  transition: all 0.5s ease;
+}
+
+.showcase .showcase-img1 {
+  min-height: 30rem;
+  background-size: cover;
+  transition: all 0.5s ease;
+}
+
+.showcase .showcase-img:hover{
+  transform:scale(1.04);
+  overflow: hidden;
+  cursor:pointer;
+}
+
+@media (min-width: 768px) {
+  .showcase .showcase-text {
+    padding: 7rem;
+  }
+}
+
+footer.footer {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+body{
+  font: 14px/1 "Helvetica Neue", "Helvetica", Helvetica,Arial, sans-serif; /* example */
+}
+
+.sendfile{
+  height:2.5em;
+  cursor:pointer;
+  margin-left:10px;
+  padding:0 15px;
+}
+
+.file_upload{
+  position: relative;
+  overflow: hidden;
+  font-size: 1em;
+  height: 2.5em;
+  line-height: 2.2em;
+  padding:0;
+}
+.file_upload > button{
+  float: right;
+  width: 6em;
+  height: 100%;
+}
+.file_upload > div{
+  padding-left: 1em ;
+}
+@media only screen and ( max-width: 500px ){
+  .file_upload > div{
+    display: none;
+  }
+  .file_upload > button, .sendfile, alert{
+    width: 100%;
+  }
+  .sendfile{
+    margin-left: 0px;
+  }
+}
+.file_upload input[type=file]{
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  transform: scale(10);
+  letter-spacing: 10em;     /* IE 9 fix */
+  -ms-transform: scale(20); /* IE 9 fix */
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* beautiful */
+
+.file_upload{
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+  transition: box-shadow 0.1s linear
+}
+.file_upload.focus{
+  box-shadow: 0 0 5px rgba(0,30,255,0.4)
+}
+.file_upload > button, .sendfile{
+  background: #007bff;
+  transition: background 0.2s;
+  border: 1px solid rgba(0,0,0,0.1);
+  border-color: rgba(0,0,0,0.1) rgba(0,0,0,0.1) rgba(0,0,0,0.25);
+  border-radius: 2px;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2) inset, 0 1px 2px rgba(0, 0, 0, 0.05);
+  color: #fff;
+  text-shadow: #0069d9 0 -1px 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis
+}
+.file_upload:hover > button, .sendfile:hover{
+  background: #0069d9;
+  text-shadow: #0069d9 0 -1px 0
+}
+.file_upload:active > button, .sendfile:active{
+  background: #0069d9;
+  box-shadow: 0 0 3px rgba(0,0,0,0.3) inset
+}
+

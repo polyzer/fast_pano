@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Fast Pano Creator</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom fonts for this template -->
+    <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="vendor/simple-line-icons/css/simple-line-icons.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+
+    <!-- Custom styles for this template -->
+    <link href="css/landing-page.css" rel="stylesheet">
+
+  </head>
+
+  <body>
+
+    <!-- Masthead -->
+    <header class="masthead text-white text-center">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row">
+          <div class="col-xl-9 mx-auto">
+            <h1 class="mb-4">Fast Pano Creator</h1>
+            <h2 class="mb-2">Сервис для просмотра сферических панорам</h2>
+            <p>Попробуйте - просто загрузите свою панораму в формате .jpg<br>
+            Максимальный размер файла - 3 MB</p>
+          </div>
+          <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
+            <form ref='uploadForm' action='upload' method='post' encType="multipart/form-data">
+              <div class="row">
+                  <div class="col-12 col-md-6 offset-md-2 mb-md-0 file_upload">
+                    <button type="button">Выбрать</button>
+                    <div>Файл не выбран</div>
+                    <input type="file" name="sampleFile">
+                  </div>
+                  <input type="submit" class="sendfile" value="Загрузить">
+                </div>
+            </form>
+
+          </div>
+
+          <div class="col-10 col-md-8 offset-md-3 mb-md-0">
+            <script>
+                var getTemp = 0;
+                getTemp = <%= message %>;
+                if(getTemp===1){
+                    document.write('<div class="alert alert-danger" style="margin-top:10px">');
+                    document.write('<strong>Не выбран файл!<\/strong>');
+                    document.write('<\/div>');
+                }
+                else if(getTemp===2){
+                    document.write('<div class="alert alert-danger" style="margin-top:10px">');
+                    document.write('<strong>Только JPG файлы!<\/strong>');
+                    document.write('<\/div>');
+                }
+                else if(getTemp===3){
+                    document.write('<div class="alert alert-danger" style="margin-top:10px">');
+                    document.write('<strong>Размер не более 3 мб!<\/strong>');
+                    document.write('<\/div>');
+                }
+                else if(getTemp===4){
+                    document.write('<div class="alert alert-success" style="margin-top:10px; position:absolute">');
+                    document.write('<strong>Панорама доступна по ссылке <a href="<%=url%>" target="_blank">skyfox.team:3874/<%=url%><\/a><\/strong>');
+                    document.write('<\/div>');
+                }
+            </script>
+            </div>
+        </div>
+      </div>
+    </header>
+
+
+    <!-- Image Showcases -->
+    <section class="showcase">
+      <div class="container-fluid p-0">
+        <div class="row no-gutters">
+          <a href="JNE" class="col-lg-6 order-lg-2"  target="_blank">
+            <div class="showcase-img" style="background-image: url('img/bg-showcase-6.jpg');"></div>
+          </a>
+            <div class="col-lg-6 order-lg-1 showcase-text showcase-img1" style="background-image: url('img/1.jpg');">
+            <h2>Примеры работы сервиса</h2>
+            <p class="lead mb-0">Нажмите на изображение, чтобы открыть демонстрацию панорамы.</p>
+          </div>
+        </div>
+        <div class="row no-gutters">
+          <a href="TAI" class="col-lg-6 order-lg-2"  target="_blank">
+            <div class="showcase-img" style="background-image: url('img/bg-showcase-5.jpg');"></div>
+          </a>
+          <a href="BGT" class="col-lg-6 order-lg-2"  target="_blank">
+            <div class="showcase-img" style="background-image: url('img/bg-showcase-8.jpg');"></div>
+          </a>
+        </div>
+        <div class="row no-gutters">
+          <a href="KTX" class="col-lg-6 order-lg-2"  target="_blank">
+            <div class="showcase-img" style="background-image: url('img/bg-showcase-4.jpg');"></div>
+          </a>
+          <a href="CNM" class="col-lg-6 order-lg-2"  target="_blank">
+            <div class="showcase-img" style="background-image: url('img/bg-showcase-7.jpg');"></div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer bg-light">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-6 h-100 text-center text-lg-left my-auto">
+            <p class="text-muted small mb-4 mb-lg-0">&copy; SkyFox Team, 2018.</p>
+          </div>
+          <div class="col-lg-6 h-100 text-center text-lg-right my-auto">
+            <ul class="list-inline mb-0">
+              <li class="list-inline-item mr-3">
+                <a href="https://vk.com/skyfoxteam" target="_blank">
+                  <i class="fa fa-vk fa-2x fa-fw"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+
+      $(function(){
+          var wrapper = $( ".file_upload" ),
+              inp = wrapper.find( "input" ),
+              btn = wrapper.find( "button" ),
+              lbl = wrapper.find( "div" );
+
+          btn.focus(function(){
+              inp.focus()
+          });
+          // Crutches for the :focus style:
+          inp.focus(function(){
+              wrapper.addClass( "focus" );
+          }).blur(function(){
+              wrapper.removeClass( "focus" );
+          });
+
+          var file_api = ( window.File && window.FileReader && window.FileList && window.Blob ) ? true : false;
+
+          inp.change(function(){
+              var file_name;
+              if( file_api && inp[ 0 ].files[ 0 ] )
+                  file_name = inp[ 0 ].files[ 0 ].name;
+              else
+                  file_name = inp.val().replace( "C:\\fakepath\\", '' );
+
+              if( ! file_name.length )
+                  return;
+
+              if( lbl.is( ":visible" ) ){
+                  lbl.text( file_name );
+                  btn.text( "Выбрать" );
+              }else
+                  btn.text( file_name );
+          }).change();
+
+      });
+      $( window ).resize(function(){
+          $( ".file_upload input" ).triggerHandler( "change" );
+      });
+
+  </script>
+
+  </body>
+
+</html>
